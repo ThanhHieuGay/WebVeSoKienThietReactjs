@@ -1,0 +1,245 @@
+/* custom.css - Modern Lottery Styles */
+
+/* Variables */
+:root {
+  --primary: #C8102E; /* Đổi từ #DC2626 sang #C8102E (primary-red từ style.css cũ) */
+  --dark-red: #B71C1C; /* Thêm dark-red từ style.css cũ, dùng cho hover hoặc nền tối */
+  --golden: #F59E0B; /* Giữ nguyên */
+  --transition: 0.3s ease;
+}
+
+/* Glass Effect */
+.glass {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Province Card */
+.province-card {
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.province-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: 0.5s;
+}
+
+.province-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(200, 16, 46, 0.15); /* Điều chỉnh rgba để khớp #C8102E (red:200, green:16, blue:46) */
+}
+
+.province-card:hover::before {
+  left: 100%;
+}
+
+/* Prize Numbers */
+.prize-special {
+  font-size: 2rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #C8102E, #F59E0B); /* Đổi từ #DC2626 sang #C8102E */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.prize-first {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #C8102E; /* Đổi từ #DC2626 sang #C8102E */
+}
+
+/* Animations */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-slide-up {
+  animation: slideUp 0.6s ease-out;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out;
+}
+
+/* Delay utilities for animations */
+.delay-75 {
+  animation-delay: 0.075s;
+}
+
+.delay-100 {
+  animation-delay: 0.1s;
+}
+
+.delay-150 {
+  animation-delay: 0.15s;
+}
+
+.delay-200 {
+  animation-delay: 0.2s;
+}
+
+/* Button Ripple */
+.btn-primary {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.btn-primary:hover::after {
+  width: 300px;
+  height: 300px;
+}
+
+.btn-primary:active {
+  transform: scale(0.95);
+}
+
+/* Hover Lift */
+.hover-lift {
+  transition: var(--transition);
+}
+
+.hover-lift:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* Gradient Text */
+.text-gradient {
+  background: linear-gradient(135deg, #C8102E, #F59E0B); /* Đổi từ #DC2626 sang #C8102E */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Shadows */
+.shadow-soft {
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+}
+
+.shadow-strong {
+  box-shadow: 0 10px 40px rgba(200, 16, 46, 0.15); /* Điều chỉnh rgba để khớp #C8102E */
+}
+
+/* Loading Skeleton */
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Focus States */
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Check Result Box */
+.check-result {
+  border-left: 4px solid var(--primary);
+  animation: slideUp 0.5s ease-out;
+}
+
+.check-result.no-win {
+  background: #FEF2F2;
+  border-color: #EF4444;
+}
+
+.check-result.win {
+  background: #F0FDF4;
+  border-color: #10B981;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .prize-special {
+    font-size: 1.5rem;
+  }
+  
+  .prize-first {
+    font-size: 1.2rem;
+  }
+}
+
+/* Navigation Menu Items - Nền vàng thuần nhẹ nhàng */
+.nav-menu-item {
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 0.5rem;
+  color: #FFFFFF !important;
+  padding: 0.625rem 1rem;
+}
+
+.nav-menu-item:hover {
+  background: #FFC107 !important; /* Vàng thuần amber nhạt */
+  color: #C8102E !important; /* Màu chữ đỏ chính */
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Bóng nhẹ, trung tính */
+}
+
+.nav-menu-item.active {
+  background: #FFCA28 !important; /* Vàng sáng hơn một chút cho trạng thái active */
+  color: #C8102E !important;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Bóng nhẹ hơn */
+  border: 1px solid rgba(255, 193, 7, 0.6); /* Viền vàng nhạt từ #FFC107 */
+}
+
+.nav-menu-item.active:hover {
+  background: #FFD54F !important; /* Vàng sáng hơn khi hover trên active */
+  color: #B71C1C !important; /* Đỏ đậm hơn */
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2); /* Bóng nhẹ hơn */
+}
