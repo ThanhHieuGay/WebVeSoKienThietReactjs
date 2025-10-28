@@ -1,46 +1,41 @@
-// QuickCheck.jsx - Có kiểm tra trúng thưởng số 123456 và chỉ chọn được ngày hôm nay
 import { useState } from 'react';
-import { Container, Card, Form, Button, Row, Col, Alert } from 'react-bootstrap';
 
-// Danh sách tỉnh thành đầy đủ theo miền
 const provincesData = {
   nam: [
     { value: 'hcm', label: 'TP. Hồ Chí Minh' },
-    { value: 'dongnai', label: 'Đồng Nai' },
-    { value: 'cantho', label: 'Cần Thơ' },
-    { value: 'vungtau', label: 'Bà Rịa - Vũng Tàu' },
-    { value: 'bentre', label: 'Bến Tre' },
-    { value: 'baclieu', label: 'Bạc Liêu' },
-    { value: 'dongthap', label: 'Đồng Tháp' },
+    { value: 'dthap', label: 'Đồng Tháp' },
     { value: 'camau', label: 'Cà Mau' },
-    { value: 'longan', label: 'Long An' },
-    { value: 'angiang', label: 'An Giang' },
-    { value: 'tayninh', label: 'Tây Ninh' },
-    { value: 'binhduong', label: 'Bình Dương' },
+    { value: 'benttre', label: 'Bến Tre' },
+    { value: 'vt', label: 'Vũng Tàu' },
+    { value: 'baclieu', label: 'Bạc Liêu' },
+    { value: 'dnai', label: 'Đồng Nai' },
+    { value: 'ctho', label: 'Cần Thơ' },
+    { value: 'socs', label: 'Sóc Trăng' },
+    { value: 'tayngoc', label: 'Tây Ninh' },
+    { value: 'agiang', label: 'An Giang' },
+    { value: 'binhthuan', label: 'Bình Thuận' },
+    { value: 'vlong', label: 'Vĩnh Long' },
+    { value: 'bdong', label: 'Bình Dương' },
     { value: 'travinh', label: 'Trà Vinh' },
-    { value: 'vinhlong', label: 'Vĩnh Long' },
+    { value: 'longan', label: 'Long An' },
     { value: 'binhphuoc', label: 'Bình Phước' },
     { value: 'haugiang', label: 'Hậu Giang' },
-    { value: 'kiengiang', label: 'Kiên Giang' },
-    { value: 'soctrang', label: 'Sóc Trăng' },
     { value: 'tiengiang', label: 'Tiền Giang' },
-    { value: 'daklak', label: 'Đắk Lắk' },
-    { value: 'lamdong', label: 'Lâm Đồng' }
+    { value: 'kiengiang', label: 'Kiên Giang' },
+    { value: 'dlat', label: 'Đà Lạt (Lâm Đồng)' }
   ],
   trung: [
     { value: 'danang', label: 'Đà Nẵng' },
+    { value: 'hue', label: 'Thừa Thiên Huế' },
     { value: 'khanhhoa', label: 'Khánh Hòa' },
     { value: 'phuyen', label: 'Phú Yên' },
-    { value: 'daklak', label: 'Đắk Lắk' },
     { value: 'quangnam', label: 'Quảng Nam' },
-    { value: 'quangbinh', label: 'Quảng Bình' },
-    { value: 'quangtri', label: 'Quảng Trị' },
     { value: 'quangngai', label: 'Quảng Ngãi' },
     { value: 'binhdinh', label: 'Bình Định' },
+    { value: 'daklak', label: 'Đắk Lắk' },
     { value: 'gialai', label: 'Gia Lai' },
-    { value: 'ninhthuan', label: 'Ninh Thuận' },
-    { value: 'hue', label: 'Thừa Thiên Huế' },
-    { value: 'kontum', label: 'Kon Tum' },
+    { value: 'quangtri', label: 'Quảng Trị' },
+    { value: 'quangbinh', label: 'Quảng Bình' },
     { value: 'daknong', label: 'Đắk Nông' }
   ],
   bac: [
@@ -48,14 +43,11 @@ const provincesData = {
     { value: 'quangninh', label: 'Quảng Ninh' },
     { value: 'bacninh', label: 'Bắc Ninh' },
     { value: 'haiphong', label: 'Hải Phòng' },
-    { value: 'namdinh', label: 'Nam Định' },
     { value: 'thaibinh', label: 'Thái Bình' },
-    { value: 'haiduong', label: 'Hải Dương' },
-    { value: 'hungyen', label: 'Hưng Yên' }
+    { value: 'namdinh', label: 'Nam Định' }
   ]
 };
 
-// Gộp tất cả tỉnh có thêm thông tin miền
 const allProvinces = [];
 Object.keys(provincesData).forEach(region => {
   provincesData[region].forEach(province => {
@@ -64,7 +56,7 @@ Object.keys(provincesData).forEach(region => {
 });
 
 export const QuickCheck = () => {
-  const today = new Date().toISOString().split("T")[0]; // yyyy-mm-dd
+  const today = new Date().toISOString().split("T")[0];
 
   const [formData, setFormData] = useState({
     region: '',
@@ -74,37 +66,49 @@ export const QuickCheck = () => {
   });
 
   const [checkResult, setCheckResult] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const getProvincesByRegion = () => {
-    if (formData.region) {
-      return provincesData[formData.region] || [];
-    }
+    if (formData.region) return provincesData[formData.region] || [];
     return allProvinces;
+  };
+
+  const handleRegionChange = (e) => {
+    const newRegion = e.target.value;
+    setFormData({ 
+      ...formData, 
+      region: newRegion,
+      province: ''
+    });
   };
 
   const handleProvinceChange = (provinceValue) => {
     const selectedProvince = allProvinces.find(p => p.value === provinceValue);
     if (selectedProvince && !formData.region) {
-      setFormData({
-        ...formData,
-        province: provinceValue,
-        region: selectedProvince.region
+      setFormData({ 
+        ...formData, 
+        province: provinceValue, 
+        region: selectedProvince.region 
       });
     } else {
       setFormData({ ...formData, province: provinceValue });
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    if (!formData.province || !formData.number) {
+      alert('Vui lòng chọn đầy đủ thông tin!');
+      return;
+    }
+
+    setIsLoading(true);
+    // Mock loading
+    await new Promise(resolve => setTimeout(resolve, 1500));
 
     const provinceName = allProvinces.find(p => p.value === formData.province)?.label || formData.province;
-    const regionName =
-      formData.region === 'nam' ? 'Miền Nam' :
-      formData.region === 'trung' ? 'Miền Trung' :
-      formData.region === 'bac' ? 'Miền Bắc' : 'Không xác định';
-
-    // 🔍 Xử lý kiểm tra trúng thưởng
+    const regionName = formData.region === 'nam' ? 'Miền Nam' : formData.region === 'trung' ? 'Miền Trung' : 'Miền Bắc';
     const isWin = formData.number === '123456';
 
     setCheckResult({
@@ -113,141 +117,178 @@ export const QuickCheck = () => {
       province: provinceName,
       region: regionName,
       date: new Date(formData.date).toLocaleDateString('vi-VN'),
-      checkTime: new Date().toLocaleString('vi-VN')
     });
+
+    setIsLoading(false);
+  };
+
+  const handleNumberChange = (e) => {
+    const value = e.target.value.replace(/\D/g, '').slice(0, 6);
+    setFormData({ ...formData, number: value });
   };
 
   return (
-    <Container className="my-5">
-      <Card className="shadow-lg border-0">
-        <Card.Header className="bg-warning text-center py-3">
-          <h3 className="mb-0 fw-bold">🎯 Tra Cứu Vé Số Nhanh</h3>
-        </Card.Header>
-        <Card.Body className="p-4">
-          <Form onSubmit={handleSubmit}>
-            <Row className="mb-3">
-              <Col md={6}>
-                <Form.Group>
-                  <Form.Label className="fw-bold">Chọn Miền</Form.Label>
-                  <Form.Select
-                    value={formData.region}
-                    onChange={(e) =>
-                      setFormData({ ...formData, region: e.target.value, province: '' })
-                    }
-                  >
-                    <option value="">-- Tất cả miền --</option>
-                    <option value="nam">Miền Nam</option>
-                    <option value="trung">Miền Trung</option>
-                    <option value="bac">Miền Bắc</option>
-                  </Form.Select>
-                </Form.Group>
-              </Col>
-              <Col md={6}>
-                <Form.Group>
-                  <Form.Label className="fw-bold">Chọn Tỉnh/Thành</Form.Label>
-                  <Form.Select
-                    value={formData.province}
-                    onChange={(e) => handleProvinceChange(e.target.value)}
-                    required
-                  >
-                    <option value="">-- Chọn tỉnh/thành --</option>
-                    {getProvincesByRegion().map((province) => (
-                      <option key={province.value} value={province.value}>
-                        {province.label}
-                      </option>
-                    ))}
-                  </Form.Select>
-                </Form.Group>
-              </Col>
-            </Row>
+    <div className="max-w-4xl mx-auto my-16 px-4">
+      <div className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-red-100">
+        {/* Header */}
+        <div className="bg-gradient-to-r from-red-700 via-red-800 to-orange-600 p-8 text-center relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/10 to-orange-400/10" />
+          <div className="relative z-10">
+            <h2 className="text-3xl font-bold text-white mb-2">🔍 Tra Cứu Vé Số Nhanh</h2>
+            <p className="text-yellow-100 text-lg">Kiểm tra trúng thưởng chỉ với 1 cú click!</p>
+          </div>
+        </div>
 
-            <Row className="mb-3">
-              <Col md={6}>
-                <Form.Group>
-                  <Form.Label className="fw-bold">Ngày Mở Thưởng</Form.Label>
-                  <Form.Control
-                    type="date"
-                    value={formData.date}
-                    onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                    required
-                    max={today} // ❌ Chỉ chọn được ngày hôm nay hoặc trước đó
-                  />
-                </Form.Group>
-              </Col>
-              <Col md={6}>
-                <Form.Group>
-                  <Form.Label className="fw-bold">Mã Số Vé (6 chữ số)</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="123456"
-                    maxLength="6"
-                    pattern="[0-9]{6}"
-                    value={formData.number}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        number: e.target.value.replace(/\D/g, '')
-                      })
-                    }
-                    required
-                  />
-                </Form.Group>
-              </Col>
-            </Row>
+        {/* Form */}
+        <div className="p-8">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Region */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">🌍 Chọn Miền</label>
+                <select
+                  value={formData.region}
+                  onChange={handleRegionChange}
+                  className="w-full p-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-red-500/20 focus:border-red-500 transition-all duration-300 bg-white/50 backdrop-blur-sm"
+                >
+                  <option value="">Tất cả miền</option>
+                  <option value="nam">Miền Nam</option>
+                  <option value="trung">Miền Trung</option>
+                  <option value="bac">Miền Bắc</option>
+                </select>
+              </div>
 
-            <Button
+              {/* Province */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">🎯 Chọn Tỉnh/Thành</label>
+                <select
+                  value={formData.province}
+                  onChange={(e) => handleProvinceChange(e.target.value)}
+                  required
+                  className="w-full p-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-red-500/20 focus:border-red-500 transition-all duration-300 bg-white/50 backdrop-blur-sm"
+                >
+                  <option value="">Chọn tỉnh...</option>
+                  {getProvincesByRegion().map((province) => (
+                    <option key={province.value} value={province.value}>
+                      {province.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Date */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">📅 Ngày Quay</label>
+                <input
+                  type="date"
+                  value={formData.date}
+                  onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+                  max={today}
+                  required
+                  className="w-full p-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-red-500/20 focus:border-red-500 transition-all duration-300 bg-white/50 backdrop-blur-sm"
+                />
+              </div>
+
+              {/* Number */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">🎫 Số Vé (6 chữ số)</label>
+                <input
+                  type="text"
+                  placeholder="VD: 123456"
+                  maxLength="6"
+                  pattern="[0-9]{6}"
+                  value={formData.number}
+                  onChange={handleNumberChange}
+                  required
+                  className="w-full p-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-red-500/20 focus:border-red-500 transition-all duration-300 bg-white/50 backdrop-blur-sm text-center text-2xl font-bold tracking-wider"
+                />
+              </div>
+            </div>
+
+            {/* Submit Button */}
+            <button
               type="submit"
-              variant="danger"
-              size="lg"
-              className="w-100 fw-bold"
+              disabled={isLoading}
+              className={`w-full py-4 rounded-xl font-bold text-xl transition-all duration-300 flex items-center justify-center gap-3 ${
+                isLoading 
+                  ? 'bg-gray-400 cursor-not-allowed' 
+                  : 'bg-gradient-to-r from-red-600 to-orange-500 hover:from-red-700 hover:to-orange-600 shadow-xl hover:shadow-2xl hover:-translate-y-1 active:scale-95'
+              } text-white border-0`}
             >
-              🔍 KIỂM TRA NGAY
-            </Button>
-          </Form>
+              {isLoading ? (
+                <>
+                  <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  Đang kiểm tra...
+                </>
+              ) : (
+                <>
+                  <span>🔍</span>
+                  KIỂM TRA NGAY
+                </>
+              )}
+            </button>
+          </form>
 
-          {/* Kết quả */}
+          {/* Result */}
           {checkResult && (
-            <Alert
-              variant={checkResult.isWin ? 'success' : 'danger'}
-              className="mt-4 check-result"
-            >
-              <Alert.Heading>
-                {checkResult.isWin
-                  ? '🎉 Chúc mừng! Vé của bạn đã trúng thưởng!'
-                  : '😔 Rất tiếc, vé của bạn không trúng thưởng'}
-              </Alert.Heading>
-              <hr />
-              <div className="mb-2">
-                <strong>Số vé đã dò:</strong>{' '}
-                <span className="text-danger fs-5 fw-bold">
-                  {checkResult.number}
-                </span>
-              </div>
-              <div className="mb-2">
-                <strong>Đài:</strong> {checkResult.province} ({checkResult.region})
-              </div>
-              <div className="mb-2">
-                <strong>Ngày quay:</strong> {checkResult.date}
-              </div>
-              <div className="text-muted small">
-                <strong>Thời gian dò:</strong> {checkResult.checkTime}
+            <div className={`mt-8 p-6 rounded-3xl border-4 transition-all duration-500 ${
+              checkResult.isWin 
+                ? 'border-green-400 bg-gradient-to-r from-green-50 to-emerald-50' 
+                : 'border-red-400 bg-gradient-to-r from-red-50 to-orange-50'
+            }`}>
+              <div className="text-center mb-4">
+                <div className={`text-6xl mb-2 ${
+                  checkResult.isWin ? 'text-green-500 animate-bounce' : 'text-red-500'
+                }`}>
+                  {checkResult.isWin ? '🎉' : '😔'}
+                </div>
+                <h3 className={`text-2xl font-bold ${
+                  checkResult.isWin ? 'text-green-700' : 'text-red-700'
+                }`}>
+                  {checkResult.isWin 
+                    ? 'Chúc mừng! Vé của bạn đã trúng thưởng!' 
+                    : 'Rất tiếc, vé không trúng thưởng'
+                  }
+                </h3>
               </div>
 
-              {checkResult.isWin && (
-                <div className="mt-3 p-3 bg-light rounded text-center">
-                  🏆 <strong>Bạn đã trúng giải đặc biệt!</strong> Xin chúc mừng!
+              <div className="space-y-3 text-sm">
+                <div className="flex justify-between">
+                  <span className="font-semibold text-gray-700">Số vé:</span>
+                  <span className={`font-bold ${
+                    checkResult.isWin ? 'text-green-600' : 'text-red-600'
+                  }`}>
+                    {checkResult.number}
+                  </span>
                 </div>
-              )}
+                <div className="flex justify-between">
+                  <span className="font-semibold text-gray-700">Đài:</span>
+                  <span>{checkResult.province}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-semibold text-gray-700">Miền:</span>
+                  <span className="font-semibold">{checkResult.region}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-semibold text-gray-700">Ngày quay:</span>
+                  <span>{checkResult.date}</span>
+                </div>
+              </div>
 
-              {!checkResult.isWin && (
-                <div className="mt-3 p-3 bg-light rounded text-center">
-                  💡 <strong>Đừng nản lòng!</strong> Hãy thử vận may lần sau nhé!
-                </div>
-              )}
-            </Alert>
+              <div className={`mt-6 p-4 rounded-xl text-center font-semibold ${
+                checkResult.isWin 
+                  ? 'bg-green-100 text-green-800 border border-green-200' 
+                  : 'bg-red-100 text-red-800 border border-red-200'
+              }`}>
+                {checkResult.isWin 
+                  ? '🏆 Bạn đã trúng giải đặc biệt! Vui lòng liên hệ đại lý để nhận thưởng.' 
+                  : '💡 Chúc bạn may mắn lần sau! Hãy thử lại với vé mới.'
+                }
+              </div>
+            </div>
           )}
-        </Card.Body>
-      </Card>
-    </Container>
+        </div>
+      </div>
+    </div>
   );
 };

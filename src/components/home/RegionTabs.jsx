@@ -1,31 +1,27 @@
 import { ButtonGroup, Button, Container } from 'react-bootstrap';
 
 export const RegionTabs = ({ selectedRegion, onSelectRegion }) => {
+  const btn = (key, label) => (
+    <Button
+      onClick={() => onSelectRegion(key)}
+      className="px-5 fw-bold"
+      style={{
+        backgroundColor: selectedRegion === key ? '#C8102E' : 'transparent',
+        borderColor: '#C8102E',
+        color: selectedRegion === key ? '#fff' : '#C8102E'
+      }}
+    >
+      {label}
+    </Button>
+  );
+
   return (
     <Container className="my-4">
       <div className="d-flex justify-content-center">
         <ButtonGroup size="lg">
-          <Button
-            variant={selectedRegion === 'nam' ? 'danger' : 'outline-danger'}
-            onClick={() => onSelectRegion('nam')}
-            className="px-5 fw-bold"
-          >
-            MIỀN NAM
-          </Button>
-          <Button
-            variant={selectedRegion === 'trung' ? 'danger' : 'outline-danger'}
-            onClick={() => onSelectRegion('trung')}
-            className="px-5 fw-bold"
-          >
-            MIỀN TRUNG
-          </Button>
-          <Button
-            variant={selectedRegion === 'bac' ? 'danger' : 'outline-danger'}
-            onClick={() => onSelectRegion('bac')}
-            className="px-5 fw-bold"
-          >
-            MIỀN BẮC
-          </Button>
+          {btn('nam', 'MIỀN NAM')}
+          {btn('trung', 'MIỀN TRUNG')}
+          {btn('bac', 'MIỀN BẮC')}
         </ButtonGroup>
       </div>
     </Container>

@@ -20,20 +20,29 @@ export const Header = () => {
   return (
     <header className="sticky-top shadow-lg">
       <TopBar />
-      <Navbar variant="dark" expand="lg" className="py-3" style={{ backgroundColor: 'var(--primary)' }}>
+      <Navbar 
+        variant="dark" 
+        expand="lg" 
+        className="py-3"
+        style={{ backgroundColor: 'var(--primary)' }}
+      >
         <Container>
-          <Navbar.Brand as={Link} to="/" className="fw-bold fs-4">
+          <Navbar.Brand as={Link} to="/" className="fw-bold fs-4 text-white">
             Xổ Số Kiến Thiết Phát Tài
           </Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Toggle aria-controls="basic-navbar-nav" className="border-white" />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="ms-auto">
+            <Nav className="ms-auto gap-1">
               {menuItems.map(item => (
                 <Nav.Link 
                   key={item.name}
                   as={Link}
                   to={item.path}
-                  className={`text-white px-3 nav-menu-item ${location.pathname === item.path ? 'active' : ''}`}
+                  className={`nav-menu-item ${location.pathname === item.path ? 'active' : ''}`}
+                  style={{ 
+                    color: 'white',
+                    padding: '0.625rem 1rem'
+                  }}
                 >
                   {item.name}
                 </Nav.Link>
