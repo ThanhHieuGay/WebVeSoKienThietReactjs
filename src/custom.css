@@ -2,9 +2,9 @@
 
 /* Variables */
 :root {
-  --primary: #C8102E; /* Đổi từ #DC2626 sang #C8102E (primary-red từ style.css cũ) */
-  --dark-red: #B71C1C; /* Thêm dark-red từ style.css cũ, dùng cho hover hoặc nền tối */
-  --golden: #F59E0B; /* Giữ nguyên */
+  --primary: #C8102E;
+  --dark-red: #B71C1C;
+  --golden: #F59E0B;
   --transition: 0.3s ease;
 }
 
@@ -35,7 +35,7 @@
 
 .province-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(200, 16, 46, 0.15); /* Điều chỉnh rgba để khớp #C8102E (red:200, green:16, blue:46) */
+  box-shadow: 0 20px 40px rgba(200, 16, 46, 0.15);
 }
 
 .province-card:hover::before {
@@ -46,7 +46,7 @@
 .prize-special {
   font-size: 2rem;
   font-weight: 800;
-  background: linear-gradient(135deg, #C8102E, #F59E0B); /* Đổi từ #DC2626 sang #C8102E */
+  background: linear-gradient(135deg, #C8102E, #F59E0B);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -56,7 +56,7 @@
 .prize-first {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #C8102E; /* Đổi từ #DC2626 sang #C8102E */
+  color: #C8102E;
 }
 
 /* Animations */
@@ -151,7 +151,7 @@
 
 /* Gradient Text */
 .text-gradient {
-  background: linear-gradient(135deg, #C8102E, #F59E0B); /* Đổi từ #DC2626 sang #C8102E */
+  background: linear-gradient(135deg, #C8102E, #F59E0B);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -163,7 +163,7 @@
 }
 
 .shadow-strong {
-  box-shadow: 0 10px 40px rgba(200, 16, 46, 0.15); /* Điều chỉnh rgba để khớp #C8102E */
+  box-shadow: 0 10px 40px rgba(200, 16, 46, 0.15);
 }
 
 /* Loading Skeleton */
@@ -176,14 +176,6 @@
 @keyframes loading {
   0% { background-position: 200% 0; }
   100% { background-position: -200% 0; }
-}
-
-/* Focus States */
-input:focus,
-select:focus,
-textarea:focus {
-  outline: 2px solid var(--primary);
-  outline-offset: 2px;
 }
 
 /* Check Result Box */
@@ -213,7 +205,7 @@ textarea:focus {
   }
 }
 
-/* Navigation Menu Items - Nền vàng thuần nhẹ nhàng */
+/* Navigation Menu Items */
 .nav-menu-item {
   position: relative;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -223,23 +215,141 @@ textarea:focus {
 }
 
 .nav-menu-item:hover {
-  background: #FFC107 !important; /* Vàng thuần amber nhạt */
-  color: #C8102E !important; /* Màu chữ đỏ chính */
+  background: #FFC107 !important;
+  color: #C8102E !important;
   transform: translateY(-3px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Bóng nhẹ, trung tính */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .nav-menu-item.active {
-  background: #FFCA28 !important; /* Vàng sáng hơn một chút cho trạng thái active */
+  background: #FFCA28 !important;
   color: #C8102E !important;
   font-weight: 700;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Bóng nhẹ hơn */
-  border: 1px solid rgba(255, 193, 7, 0.6); /* Viền vàng nhạt từ #FFC107 */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 193, 7, 0.6);
 }
 
 .nav-menu-item.active:hover {
-  background: #FFD54F !important; /* Vàng sáng hơn khi hover trên active */
-  color: #B71C1C !important; /* Đỏ đậm hơn */
+  background: #FFD54F !important;
+  color: #B71C1C !important;
   transform: translateY(-3px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2); /* Bóng nhẹ hơn */
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Animation fadeIn */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.6s ease-out;
+}
+
+/* Animation pulse */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* ============================================
+   XÓA PHẦN NÀY - ĐANG XUNG ĐỘT VỚI TAILWIND
+   ============================================ */
+/* BỎ: * { transition-property: ... } */
+/* Để Tailwind tự xử lý transitions */
+
+/* Border utilities - CHỈ GIỮ NHỮNG CÁI TAILWIND KHÔNG CÓ */
+.border-3 {
+  border-width: 3px !important;
+}
+
+/* ============================================
+   BO GÓC CHO TẤT CẢ CÁC NÚT - ĐẢM BẢO HOẠT ĐỘNG
+   ============================================ */
+
+/* Bo góc cho tất cả button */
+button {
+  border-radius: 12px !important;
+}
+
+/* Bo góc đặc biệt cho các loại button cụ thể */
+.rounded-xl {
+  border-radius: 12px !important;
+}
+
+.rounded-2xl {
+  border-radius: 16px !important;
+}
+
+.rounded-3xl {
+  border-radius: 24px !important;
+}
+
+.rounded-full {
+  border-radius: 9999px !important;
+}
+
+/* Bo góc cho input, select, textarea */
+input,
+select,
+textarea {
+  border-radius: 12px !important;
+}
+
+/* Bo góc cho các card/container */
+.rounded-2xl {
+  border-radius: 16px !important;
+}
+
+/* Backdrop blur - Tailwind đã có, nhưng giữ để đảm bảo */
+.backdrop-blur-sm {
+  backdrop-filter: blur(4px);
+}
+
+/* Gradient text - Tailwind đã có, nhưng giữ cho chắc */
+.bg-clip-text {
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.text-transparent {
+  color: transparent;
+}
+
+/* Custom scrollbar cho modal */
+.overflow-y-auto {
+  scrollbar-width: thin;
+  scrollbar-color: #C8102E #f1f1f1;
+}
+
+.overflow-y-auto::-webkit-scrollbar {
+  width: 8px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb {
+  background: #C8102E;
+  border-radius: 10px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb:hover {
+  background: #B71C1C;
 }

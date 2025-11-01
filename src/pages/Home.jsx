@@ -34,7 +34,11 @@ export const Home = () => {
         onDateChange={handleDateChange}
       />
       
-      <LotteryResults region={selectedRegion} />
+      {/* Truyền currentDate vào LotteryResults */}
+      <LotteryResults 
+        region={selectedRegion} 
+        currentDate={currentDate}
+      />
       
       <QuickCheck />
       
@@ -44,4 +48,5 @@ export const Home = () => {
     </div>
   );
 };
+
 export default Home;

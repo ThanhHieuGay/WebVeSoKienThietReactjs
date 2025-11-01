@@ -104,7 +104,6 @@ export const QuickCheck = () => {
     }
 
     setIsLoading(true);
-    // Mock loading
     await new Promise(resolve => setTimeout(resolve, 1500));
 
     const provinceName = allProvinces.find(p => p.value === formData.province)?.label || formData.province;
@@ -128,28 +127,32 @@ export const QuickCheck = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto my-16 px-4">
-      <div className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-red-100">
-        {/* Header */}
-        <div className="bg-gradient-to-r from-red-700 via-red-800 to-orange-600 p-8 text-center relative overflow-hidden">
+    <div className="container mx-auto px-4 py-4">
+      <div className="bg-white rounded-3xl shadow-2xl overflow-hidden border-4 border-red-100">
+        <div className="bg-gradient-to-r from-red-700 via-red-800 to-orange-600 p-6 text-center relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/10 to-orange-400/10" />
           <div className="relative z-10">
-            <h2 className="text-3xl font-bold text-white mb-2">🔍 Tra Cứu Vé Số Nhanh</h2>
-            <p className="text-yellow-100 text-lg">Kiểm tra trúng thưởng chỉ với 1 cú click!</p>
+            <h2 className="text-6xl md:text-7xl font-extrabold text-white mb-2">
+              🔍 Tra Cứu Vé Số Nhanh
+            </h2>
+            <p className="text-3xl md:text-4xl text-yellow-100 font-semibold">
+              Kiểm tra trúng thưởng chỉ với 1 cú click!
+            </p>
           </div>
         </div>
 
-        {/* Form */}
-        <div className="p-8">
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Region */}
+        <div className="p-6 md:p-8">
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">🌍 Chọn Miền</label>
+                <label className="block text-2xl font-bold text-gray-800 mb-2 flex items-center gap-2">
+                  <span className="text-4xl">🌍</span>
+                  Chọn Miền
+                </label>
                 <select
                   value={formData.region}
                   onChange={handleRegionChange}
-                  className="w-full p-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-red-500/20 focus:border-red-500 transition-all duration-300 bg-white/50 backdrop-blur-sm"
+                  className="w-full p-4 border-3 border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-red-500/30 focus:border-red-500 bg-white text-2xl font-semibold"
                 >
                   <option value="">Tất cả miền</option>
                   <option value="nam">Miền Nam</option>
@@ -158,40 +161,46 @@ export const QuickCheck = () => {
                 </select>
               </div>
 
-              {/* Province */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">🎯 Chọn Tỉnh/Thành</label>
+                <label className="block text-2xl font-bold text-gray-800 mb-2 flex items-center gap-2">
+                  <span className="text-4xl">🎯</span>
+                  Chọn Tỉnh/Thành
+                </label>
                 <select
                   value={formData.province}
                   onChange={(e) => handleProvinceChange(e.target.value)}
                   required
-                  className="w-full p-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-red-500/20 focus:border-red-500 transition-all duration-300 bg-white/50 backdrop-blur-sm"
+                  className="w-full p-4 border-3 border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-red-500/30 focus:border-red-500 bg-white text-2xl font-semibold"
                 >
                   <option value="">Chọn tỉnh...</option>
                   {getProvincesByRegion().map((province) => (
-                    <option key={province.value} value={province.value}>
+                    <option key={province.value} value={province.value} className="text-2xl">
                       {province.label}
                     </option>
                   ))}
                 </select>
               </div>
 
-              {/* Date */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">📅 Ngày Quay</label>
+                <label className="block text-2xl font-bold text-gray-800 mb-2 flex items-center gap-2">
+                  <span className="text-4xl">📅</span>
+                  Ngày Quay
+                </label>
                 <input
                   type="date"
                   value={formData.date}
                   onChange={(e) => setFormData({ ...formData, date: e.target.value })}
                   max={today}
                   required
-                  className="w-full p-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-red-500/20 focus:border-red-500 transition-all duration-300 bg-white/50 backdrop-blur-sm"
+                  className="w-full p-4 border-3 border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-red-500/30 focus:border-red-500 bg-white text-2xl font-semibold"
                 />
               </div>
 
-              {/* Number */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">🎫 Số Vé (6 chữ số)</label>
+                <label className="block text-2xl font-bold text-gray-800 mb-2 flex items-center gap-2">
+                  <span className="text-4xl">🎫</span>
+                  Số Vé (6 chữ số)
+                </label>
                 <input
                   type="text"
                   placeholder="VD: 123456"
@@ -200,85 +209,81 @@ export const QuickCheck = () => {
                   value={formData.number}
                   onChange={handleNumberChange}
                   required
-                  className="w-full p-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-red-500/20 focus:border-red-500 transition-all duration-300 bg-white/50 backdrop-blur-sm text-center text-2xl font-bold tracking-wider"
+                  className="w-full p-4 border-3 border-gray-300 rounded-2xl focus:outline-none focus:ring-2 focus:ring-red-500/30 focus:border-red-500 bg-white text-center text-4xl font-black tracking-widest text-red-700"
                 />
               </div>
             </div>
 
-            {/* Submit Button */}
             <button
               type="submit"
               disabled={isLoading}
-              className={`w-full py-4 rounded-xl font-bold text-xl transition-all duration-300 flex items-center justify-center gap-3 ${
+              className={`w-full py-4 rounded-2xl font-black text-4xl transition-all duration-300 flex items-center justify-center gap-3 ${
                 isLoading 
                   ? 'bg-gray-400 cursor-not-allowed' 
-                  : 'bg-gradient-to-r from-red-600 to-orange-500 hover:from-red-700 hover:to-orange-600 shadow-xl hover:shadow-2xl hover:-translate-y-1 active:scale-95'
-              } text-white border-0`}
+                  : 'bg-gradient-to-r from-red-600 to-orange-500 hover:from-red-700 hover:to-orange-600 shadow-xl hover:scale-105 active:scale-95'
+              } text-white`}
             >
               {isLoading ? (
                 <>
-                  <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  Đang kiểm tra...
+                  <div className="w-8 h-8 border-4 border-white border-t-transparent rounded-full animate-spin" />
+                  <span>Đang kiểm tra...</span>
                 </>
               ) : (
                 <>
-                  <span>🔍</span>
-                  KIỂM TRA NGAY
+                  <span className="text-4xl">🔍</span>
+                  <span>KIỂM TRA NGAY</span>
                 </>
               )}
             </button>
           </form>
 
-          {/* Result */}
           {checkResult && (
-            <div className={`mt-8 p-6 rounded-3xl border-4 transition-all duration-500 ${
+            <div className={`mt-6 p-6 rounded-3xl border-4 transition-all duration-500 ${
               checkResult.isWin 
-                ? 'border-green-400 bg-gradient-to-r from-green-50 to-emerald-50' 
-                : 'border-red-400 bg-gradient-to-r from-red-50 to-orange-50'
+                ? 'border-green-500 bg-gradient-to-br from-green-50 to-emerald-50 shadow-2xl' 
+                : 'border-red-500 bg-gradient-to-br from-red-50 to-orange-50 shadow-2xl'
             }`}>
               <div className="text-center mb-4">
-                <div className={`text-6xl mb-2 ${
-                  checkResult.isWin ? 'text-green-500 animate-bounce' : 'text-red-500'
-                }`}>
-                  {checkResult.isWin ? '🎉' : '😔'}
+                <div className={`text-9xl mb-3 ${checkResult.isWin ? 'animate-bounce' : ''}`}>
+                  {checkResult.isWin ? '🎉' : '😢'}
                 </div>
-                <h3 className={`text-2xl font-bold ${
+                <h3 className={`text-5xl md:text-6xl font-black mb-1 ${
                   checkResult.isWin ? 'text-green-700' : 'text-red-700'
                 }`}>
                   {checkResult.isWin 
-                    ? 'Chúc mừng! Vé của bạn đã trúng thưởng!' 
-                    : 'Rất tiếc, vé không trúng thưởng'
+                    ? 'CHÚC MỪNG! BẠN ĐÃ TRÚNG THƯỞNG!' 
+                    : 'RẤT TIẾC, VÉ KHÔNG TRÚNG'
                   }
                 </h3>
               </div>
 
-              <div className="space-y-3 text-sm">
-                <div className="flex justify-between">
-                  <span className="font-semibold text-gray-700">Số vé:</span>
-                  <span className={`font-bold ${
+              <div className="space-y-2 text-2xl md:text-3xl mb-4">
+                <div className="flex justify-between p-3 bg-white/70 rounded-xl">
+                  <span className="font-bold text-gray-800">Số vé:</span>
+                  <span className={`font-black text-4xl tracking-wider ${
                     checkResult.isWin ? 'text-green-600' : 'text-red-600'
                   }`}>
                     {checkResult.number}
                   </span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="font-semibold text-gray-700">Đài:</span>
-                  <span>{checkResult.province}</span>
+                <div className="flex justify-between p-3 bg-white/70 rounded-xl">
+                  <span className="font-bold text-gray-800">Đài:</span>
+                  <span className="font-semibold">{checkResult.province}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="font-semibold text-gray-700">Miền:</span>
+                <div className="flex justify-between p-3 bg-white/70 rounded-xl">
+                  <span className="font-bold text-gray-800">Miền:</span>
                   <span className="font-semibold">{checkResult.region}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span className="font-semibold text-gray-700">Ngày quay:</span>
-                  <span>{checkResult.date}</span>
+                <div className="flex justify-between p-3 bg-white/70 rounded-xl">
+                  <span className="font-bold text-gray-800">Ngày quay:</span>
+                  <span className="font-semibold">{checkResult.date}</span>
                 </div>
               </div>
 
-              <div className={`mt-6 p-4 rounded-xl text-center font-semibold ${
+              <div className={`p-4 rounded-2xl text-center font-bold text-2xl ${
                 checkResult.isWin 
-                  ? 'bg-green-100 text-green-800 border border-green-200' 
-                  : 'bg-red-100 text-red-800 border border-red-200'
+                  ? 'bg-green-200 text-green-900 border-2 border-green-400' 
+                  : 'bg-red-200 text-red-900 border-2 border-red-400'
               }`}>
                 {checkResult.isWin 
                   ? '🏆 Bạn đã trúng giải đặc biệt! Vui lòng liên hệ đại lý để nhận thưởng.' 

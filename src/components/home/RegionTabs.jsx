@@ -1,29 +1,28 @@
-import { ButtonGroup, Button, Container } from 'react-bootstrap';
-
 export const RegionTabs = ({ selectedRegion, onSelectRegion }) => {
-  const btn = (key, label) => (
-    <Button
-      onClick={() => onSelectRegion(key)}
-      className="px-5 fw-bold"
-      style={{
-        backgroundColor: selectedRegion === key ? '#C8102E' : 'transparent',
-        borderColor: '#C8102E',
-        color: selectedRegion === key ? '#fff' : '#C8102E'
-      }}
-    >
-      {label}
-    </Button>
-  );
+  const regions = [
+    { key: 'nam', label: 'MIỀN NAM', icon: '🌴' },
+    { key: 'trung', label: 'MIỀN TRUNG', icon: '🏖️' },
+    { key: 'bac', label: 'MIỀN BẮC', icon: '🏔️' }
+  ];
 
   return (
-    <Container className="my-4">
-      <div className="d-flex justify-content-center">
-        <ButtonGroup size="lg">
-          {btn('nam', 'MIỀN NAM')}
-          {btn('trung', 'MIỀN TRUNG')}
-          {btn('bac', 'MIỀN BẮC')}
-        </ButtonGroup>
+    <div className="container mx-auto px-4 py-6">
+      <div className="flex justify-center gap-3">
+        {regions.map(region => (
+          <button
+            key={region.key}
+            onClick={() => onSelectRegion(region.key)}
+            className={`px-8 py-3 rounded-lg font-bold text-base transition-all duration-300 ${
+              selectedRegion === region.key
+                ? 'bg-red-700 text-white shadow-lg scale-105'
+                : 'bg-white text-red-700 border-2 border-red-700 hover:bg-red-50 hover:scale-105'
+            }`}
+          >
+            <span className="mr-2">{region.icon}</span>
+            {region.label}
+          </button>
+        ))}
       </div>
-    </Container>
+    </div>
   );
 };

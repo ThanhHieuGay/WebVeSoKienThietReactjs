@@ -1,5 +1,3 @@
-import { Button, Container } from 'react-bootstrap';
-
 export const DateSelector = ({ currentDate, onDateChange }) => {
   const formatDate = (date) => {
     return date.toLocaleDateString('vi-VN', { 
@@ -22,26 +20,38 @@ export const DateSelector = ({ currentDate, onDateChange }) => {
   };
 
   return (
-    <Container className="my-4">
-      <div className="d-flex justify-content-center align-items-center gap-4">
-        <Button
-          variant="outline-secondary"
-          onClick={() => onDateChange(-1)}
-        >
-          « Hôm qua
-        </Button>
+    <div className="container mx-auto px-4 py-4">
+      <div className="bg-white rounded-lg shadow-md p-5">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+          <button
+            onClick={() => onDateChange(-1)}
+            className="px-6 py-2.5 bg-gray-200 hover:bg-gray-300 rounded-lg font-semibold transition-colors text-gray-700"
+          >
+            ← Hôm qua
+          </button>
 
-        <span className="fs-5 fw-bold text-danger">
-          {formatDate(currentDate)}
-        </span>
+          <div className="text-center">
+            <div className="text-3xl md:text-4xl lg:text-5xl font-bold text-red-700 mb-2">
+              {formatDate(currentDate)}
+            </div>
+            <div className="text-lg md:text-xl text-gray-600">
+              {isToday ? '📍 Kết quả hôm nay' : '📅 Kết quả đã quay'}
+            </div>
+          </div>
 
-        <Button
-          variant={isToday ? 'outline-secondary' : 'primary'}
-          onClick={handleNextDay}
-        >
-          Ngày mai »
-        </Button>
+          <button
+            onClick={handleNextDay}
+            disabled={isToday}
+            className={`px-6 py-2.5 rounded-lg font-semibold transition-all duration-300 ${
+              isToday
+                ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                : 'bg-red-700 text-white hover:bg-red-800 hover:shadow-lg'
+            }`}
+          >
+            Ngày mai →
+          </button>
+        </div>
       </div>
-    </Container>
+    </div>
   );
 };
