@@ -10,6 +10,7 @@ import {
   TicketGrid,
   FloatingCart,
   CartModal,
+  CheckoutModal,
   TICKET_DATA
 } from '../components/buy';
 
@@ -23,7 +24,7 @@ import {
  * - Hiển thị trạng thái vé (HOT/NEW/LOW/SOLD)
  * - Thêm vé vào giỏ hàng
  * - Quản lý giỏ hàng (tăng/giảm/xóa)
- * - Thanh toán
+ * - Thanh toán với CheckoutModal chi tiết
  */
 const Buy = () => {
   // ============ STATE MANAGEMENT ============
@@ -46,6 +47,9 @@ const Buy = () => {
   
   // Trạng thái mở/đóng modal giỏ hàng
   const [isCartOpen, setIsCartOpen] = useState(false);
+  
+  // Trạng thái mở/đóng modal checkout
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   
   // Danh sách vé sau khi lọc
   const [filteredTickets, setFilteredTickets] = useState(TICKET_DATA.nam);
@@ -193,22 +197,26 @@ const Buy = () => {
   };
 
   /**
-   * Thanh toán
+   * Thanh toán - Chuyển sang CheckoutModal
    */
   const handleCheckout = () => {
-    const total = cart.reduce((sum, item) => sum + (item.gia * item.quantity), 0);
-    const ticketList = cart.map(item => `${item.so} (x${item.quantity})`).join(', ');
-    
-    alert(
-      `🎉 THANH TOÁN THÀNH CÔNG!\n\n` +
-      `💰 Tổng đơn hàng: ${total.toLocaleString()} VNĐ\n` +
-      `🎫 Vé đã mua: ${ticketList}\n\n` +
-      `✅ Chúc bạn may mắn!`
-    );
-    
-    // Reset giỏ hàng
-    setCart([]);
     setIsCartOpen(false);
+    setIsCheckoutOpen(true);
+  };
+
+  /**
+   * Xác nhận thanh toán từ CheckoutModal
+   */
+  const handleConfirmPayment = (paymentData) => {
+    const { customerInfo, paymentMethod, cart, total } = paymentData;
+    
+    // Ở đây có thể gọi API để xử lý thanh toán thực tế
+    console.log('Payment confirmed:', paymentData);
+    
+    // Sau khi thanh toán thành công, reset giỏ hàng
+    setTimeout(() => {
+      setCart([]);
+    }, 2000);
   };
 
   // Tính tổng số vé trong giỏ
@@ -252,6 +260,13 @@ const Buy = () => {
           onUpdateQuantity={handleUpdateQuantity}
           onRemove={handleRemoveFromCart}
           onCheckout={handleCheckout}
+        />
+        
+        <CheckoutModal
+          isOpen={isCheckoutOpen}
+          cart={cart}
+          onClose={() => setIsCheckoutOpen(false)}
+          onConfirmPayment={handleConfirmPayment}
         />
       </div>
       

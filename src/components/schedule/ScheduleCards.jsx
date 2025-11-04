@@ -1,7 +1,9 @@
-import { weeklySchedule } from './data'; // Giả sử bạn có file data
+import { useNavigate } from 'react-router-dom';
+import { weeklySchedule } from './data';
 const drawTimes = { nam: '16:15', trung: '17:15', bac: '18:15' };
 
 export const ScheduleCards = ({ selectedDate, selectedRegion, today }) => {
+  const navigate = useNavigate();
   const dayOfWeek = selectedDate.getDay();
   const schedule = weeklySchedule[dayOfWeek];
   
@@ -10,6 +12,13 @@ export const ScheduleCards = ({ selectedDate, selectedRegion, today }) => {
     const mm = String(date.getMonth() + 1).padStart(2, '0');
     const yyyy = date.getFullYear();
     return `${dd}/${mm}/${yyyy}`;
+  };
+
+  const formatDateForUrl = (date) => {
+    const yyyy = date.getFullYear();
+    const mm = String(date.getMonth() + 1).padStart(2, '0');
+    const dd = String(date.getDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
   };
 
   const getRegionName = (region) => {
@@ -33,6 +42,11 @@ export const ScheduleCards = ({ selectedDate, selectedRegion, today }) => {
       return now > drawTime;
     }
     return false;
+  };
+
+  const handleViewResult = (province) => {
+    const dateStr = formatDateForUrl(selectedDate);
+    navigate(`/result/${encodeURIComponent(province)}/${dateStr}`);
   };
 
   if (!schedule || !schedule[selectedRegion] || schedule[selectedRegion].length === 0) {
@@ -107,6 +121,7 @@ export const ScheduleCards = ({ selectedDate, selectedRegion, today }) => {
               </div>
               
               <button
+                onClick={() => handleViewResult(province)}
                 className="w-full py-3 rounded-lg font-semibold text-white transition-all duration-300 bg-red-700 shadow-md hover:bg-red-800 hover:scale-105"
               >
                 {isPast ? '👁️ Xem kết quả' : '📋 Xem chi tiết'}

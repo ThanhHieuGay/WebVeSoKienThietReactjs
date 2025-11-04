@@ -5,10 +5,12 @@ import { Link } from 'react-router-dom';
 import { Header } from '../components/layout/Header';
 import { Footer } from '../components/layout/Footer';
 import { newsData } from '../data/newsData';
+import { Newspaper, ChevronLeft, ChevronRight } from 'lucide-react';
 
 export const News = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [currentFilter, setCurrentFilter] = useState('all');
+  const [imageErrors, setImageErrors] = useState({});
   const itemsPerPage = 6;
 
   const filteredNews = currentFilter === 'all' 
@@ -35,6 +37,10 @@ export const News = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleImageError = (id) => {
+    setImageErrors(prev => ({ ...prev, [id]: true }));
+  };
+
   const formatDate = (dateStr) => {
     const date = new Date(dateStr);
     return date.toLocaleDateString('vi-VN', { 
@@ -47,33 +53,13 @@ export const News = () => {
   const getBadgeInfo = (type) => {
     switch(type) {
       case 'hot': 
-        return { 
-          text: 'Nổi bật', 
-          bg: 'bg-red-100', 
-          text_color: 'text-red-700',
-          border: 'border-red-200'
-        };
+        return { text: 'Nổi bật', bg: 'bg-red-100', text_color: 'text-red-700', border: 'border-red-200' };
       case 'new': 
-        return { 
-          text: 'Mới nhất', 
-          bg: 'bg-green-100', 
-          text_color: 'text-green-700',
-          border: 'border-green-200'
-        };
+        return { text: 'Mới nhất', bg: 'bg-green-100', text_color: 'text-green-700', border: 'border-green-200' };
       case 'popular': 
-        return { 
-          text: 'Phổ biến', 
-          bg: 'bg-blue-100', 
-          text_color: 'text-blue-700',
-          border: 'border-blue-200'
-        };
+        return { text: 'Phổ biến', bg: 'bg-blue-100', text_color: 'text-blue-700', border: 'border-blue-200' };
       default: 
-        return { 
-          text: '', 
-          bg: 'bg-gray-100', 
-          text_color: 'text-gray-700',
-          border: 'border-gray-200'
-        };
+        return { text: '', bg: 'bg-gray-100', text_color: 'text-gray-700', border: 'border-gray-200' };
     }
   };
 
@@ -115,8 +101,9 @@ export const News = () => {
         
         <div className="relative max-w-7xl mx-auto px-4">
           <div className="text-center text-white">
+            {/* Icon được sửa: dùng lucide-react */}
             <div className="inline-flex items-center justify-center w-20 h-20 bg-white/20 backdrop-blur-sm rounded-2xl mb-6 shadow-2xl">
-              <span className="text-5xl">📰</span>
+              <Newspaper className="w-12 h-12 text-white" strokeWidth={2.5} />
             </div>
             
             <h1 className="text-4xl md:text-6xl font-black mb-6 leading-tight">
@@ -182,35 +169,41 @@ export const News = () => {
         <div className="max-w-7xl mx-auto px-4">
           {currentNews.length === 0 ? (
             <div className="text-center py-20 bg-white rounded-3xl shadow-sm">
-              <div className="text-7xl mb-4">📭</div>
+              <div className="text-7xl mb-4 opacity-20">
+                <Newspaper className="w-24 h-24 mx-auto text-gray-400" />
+              </div>
               <p className="text-gray-500 text-xl font-medium">Không tìm thấy tin tức nào</p>
             </div>
           ) : (
             <>
               {/* Featured News */}
               {currentPage === 1 && currentFilter === 'all' && featuredNews && (
-                <Link 
-                  to={`/news-detail/${featuredNews.id}`}
-                  className="block mb-8 group"
-                >
+                <Link to={`/news-detail/${featuredNews.id}`} className="block mb-8 group">
                   <div className="bg-white rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500 border border-gray-100">
-                    <div className="grid md:grid-cols-2 gap-6">
-                      <div className="relative bg-gradient-to-br from-red-50 to-orange-50 p-12 flex items-center justify-center">
+                    <div className="grid md:grid-cols-2 gap-0">
+                      {/* Ảnh bên trái */}
+                      <div className="relative bg-gradient-to-br from-red-50 to-orange-50 flex items-center justify-center">
                         <div className="absolute top-6 left-6">
                           <span className={`px-4 py-2 rounded-xl text-xs font-bold ${getBadgeInfo(featuredNews.type).bg} ${getBadgeInfo(featuredNews.type).text_color} border ${getBadgeInfo(featuredNews.type).border}`}>
                             {getBadgeInfo(featuredNews.type).text}
                           </span>
                         </div>
-                        <div className="text-center">
-                          <div className="text-9xl mb-4 transform group-hover:scale-110 transition-transform duration-500">
-                            📰
+
+                        {featuredNews.imageUrl && !imageErrors[featuredNews.id] ? (
+                          <img
+                            src={featuredNews.imageUrl}
+                            alt={featuredNews.title}
+                            className="w-full h-full object-cover"
+                            onError={() => handleImageError(featuredNews.id)}
+                          />
+                        ) : (
+                          <div className="w-full h-96 flex items-center justify-center bg-gray-100">
+                            <Newspaper className="w-32 h-32 text-gray-400" />
                           </div>
-                          <div className="text-sm font-semibold text-gray-500 uppercase tracking-wider">
-                            Tin nổi bật
-                          </div>
-                        </div>
+                        )}
                       </div>
-                      
+
+                      {/* Nội dung bên phải */}
                       <div className="p-8 flex flex-col justify-center">
                         <h2 className="text-3xl font-bold text-gray-800 mb-4 group-hover:text-red-700 transition-colors line-clamp-2">
                           {featuredNews.title}
@@ -220,14 +213,12 @@ export const News = () => {
                         </p>
                         <div className="flex items-center justify-between text-sm text-gray-500">
                           <div className="flex items-center gap-4">
-                            <span>📅 {formatDate(featuredNews.date)}</span>
-                            <span>👁️ {featuredNews.views.toLocaleString('vi-VN')}</span>
+                            <span>Date {formatDate(featuredNews.date)}</span>
+                            <span>Views {featuredNews.views.toLocaleString('vi-VN')}</span>
                           </div>
                           <div className="flex items-center gap-2 text-red-700 font-semibold">
                             <span>Đọc tiếp</span>
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                            </svg>
+                            <ChevronRight className="w-4 h-4" />
                           </div>
                         </div>
                       </div>
@@ -250,20 +241,29 @@ export const News = () => {
                       key={news.id}
                       to={`/news-detail/${news.id}`}
                       className="group"
-                      style={{
-                        animation: `fadeInUp 0.5s ease-out ${index * 0.1}s both`
-                      }}
+                      style={{ animation: `fadeInUp 0.5s ease-out ${index * 0.1}s both` }}
                     >
                       <article className="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden h-full flex flex-col">
-                        <div className="relative bg-gradient-to-br from-gray-50 to-gray-100 p-8 flex items-center justify-center border-b border-gray-200">
+                        {/* Ảnh FULL Ô */}
+                        <div className="relative bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center border-b border-gray-200">
                           <div className="absolute top-3 right-3">
                             <span className={`px-3 py-1 rounded-lg text-xs font-bold ${badge.bg} ${badge.text_color} border ${badge.border}`}>
                               {badge.text}
                             </span>
                           </div>
-                          <div className="text-7xl transform group-hover:scale-110 transition-transform duration-300">
-                            📰
-                          </div>
+
+                          {news.imageUrl && !imageErrors[news.id] ? (
+                            <img
+                              src={news.imageUrl}
+                              alt={news.title}
+                              className="w-full h-48 object-cover"
+                              onError={() => handleImageError(news.id)}
+                            />
+                          ) : (
+                            <div className="w-full h-48 flex items-center justify-center bg-gray-100">
+                              <Newspaper className="w-20 h-20 text-gray-400" />
+                            </div>
+                          )}
                         </div>
 
                         <div className="p-6 flex-1 flex flex-col">
@@ -277,14 +277,12 @@ export const News = () => {
                           
                           <div className="pt-4 border-t border-gray-100 flex items-center justify-between text-xs text-gray-500">
                             <div className="flex items-center gap-3">
-                              <span>📅 {formatDate(news.date)}</span>
-                              <span>👁️ {news.views.toLocaleString('vi-VN')}</span>
+                              <span>Date {formatDate(news.date)}</span>
+                              <span>Views {news.views.toLocaleString('vi-VN')}</span>
                             </div>
                             <div className="flex items-center gap-1 text-red-700 font-semibold">
                               <span>Xem</span>
-                              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                              </svg>
+                              <ChevronRight className="w-3 h-3" />
                             </div>
                           </div>
                         </div>
@@ -309,9 +307,7 @@ export const News = () => {
                       : 'bg-white text-gray-700 hover:bg-red-50 hover:text-red-700 shadow-sm border border-gray-200'
                   }`}
                 >
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                  </svg>
+                  <ChevronLeft className="w-4 h-4" />
                   <span className="hidden sm:inline">Trước</span>
                 </button>
                 
@@ -341,9 +337,7 @@ export const News = () => {
                   }`}
                 >
                   <span className="hidden sm:inline">Sau</span>
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
+                  <ChevronRight className="w-4 h-4" />
                 </button>
               </div>
               
@@ -359,14 +353,8 @@ export const News = () => {
 
       <style>{`
         @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
+          from { opacity: 0; transform: translateY(30px); }
+          to { opacity: 1; transform: translateY(0); }
         }
       `}</style>
     </div>

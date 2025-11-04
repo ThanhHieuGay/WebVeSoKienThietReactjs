@@ -19,4 +19,5 @@ export { TicketCard } from './TicketCard';
 export { TicketGrid } from './TicketGrid';
 export { FloatingCart } from './FloatingCart';
 export { CartModal } from './CartModal';
+export { CheckoutModal } from './CheckoutModal';  // ← THÊM DÒNG NÀY
 export * from './utils';
