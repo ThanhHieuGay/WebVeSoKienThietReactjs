@@ -8,7 +8,7 @@ export const newsData = [
     content: 'Khách hàng may mắn ở Hà Nội đã chính thức lĩnh thưởng Vietlott. Đây là một trong những giải thưởng lớn nhất trong năm 2025.', 
     date: '2025-10-08',
     views: 15420,
-    imageUrl: '/images/banner3.jpg'  
+    imageUrl: '/images/92Ty.png'  
   },
   { 
     id: 2, 
@@ -17,7 +17,7 @@ export const newsData = [
     content: 'Tổng hợp từ 30 kỳ quay gần đây, số 88, 68, 86 dẫn đầu với tần suất xuất hiện cao nhất.', 
     date: '2025-10-07',
     views: 12350,
-    imageUrl: '/images/banner3.jpg'
+    imageUrl: '/images/SoMayMan.jpg'
   },
   { 
     id: 3, 
@@ -26,7 +26,7 @@ export const newsData = [
     content: 'Người dân có thêm lựa chọn mua vé số tại TP.HCM và Đồng Nai với nhiều ưu đãi hấp dẫn.', 
     date: '2025-10-06',
     views: 8520,
-    imageUrl: '/images/banner3.jpg'
+    imageUrl: '/images/DaiLy.jpg'
   },
   { 
     id: 4, 
@@ -35,7 +35,7 @@ export const newsData = [
     content: 'Hai vợ chồng ở Đồng Nai mua vé thử may mắn và trúng giải lớn, quyết định dùng tiền làm từ thiện.', 
     date: '2025-10-05',
     views: 18750,
-    imageUrl: '/images/banner3.jpg'
+    imageUrl: '/images/VeSoCao.jpg'
   },
   { 
     id: 5, 
@@ -44,7 +44,7 @@ export const newsData = [
     content: 'Giờ đây bạn có thể mua vé số trực tuyến dễ dàng với giao diện thân thiện và bảo mật cao.', 
     date: '2025-10-04',
     views: 9840,
-    imageUrl: '/images/banner3.jpg'
+    imageUrl: '/images/MuaSo.jpg'
   },
   { 
     id: 6, 
@@ -53,7 +53,7 @@ export const newsData = [
     content: 'Mua 5 vé tặng 1 vé, áp dụng từ ngày 1-15/10. Nhiều phần quà giá trị đang chờ bạn.', 
     date: '2025-10-03',
     views: 11200,
-    imageUrl: '/images/banner3.jpg'
+    imageUrl: '/images/KhuyenMai.jpg'
   },
   { 
     id: 7, 
@@ -62,7 +62,7 @@ export const newsData = [
     content: 'Các chuyên gia chia sẻ bí quyết chọn số dựa trên ngày sinh, mệnh và tuổi để tăng vận may.', 
     date: '2025-10-02',
     views: 14580,
-    imageUrl: '/images/banner3.jpg'
+    imageUrl: '/images/PhongThuy.jpg'
   },
   { 
     id: 8, 
@@ -71,7 +71,7 @@ export const newsData = [
     content: 'Số 88, 68, 86 dẫn đầu danh sách các con số hot được người chơi lựa chọn nhiều nhất.', 
     date: '2025-10-01',
     views: 16420,
-    imageUrl: '/images/banner3.jpg'
+    imageUrl: '/images/SoNhieu.jpg'
   },
   { 
     id: 9, 
@@ -80,7 +80,7 @@ export const newsData = [
     content: 'Giải thưởng phụ lên đến 10 tỷ đồng mỗi kỳ, tăng cơ hội trúng thưởng cho người chơi.', 
     date: '2025-09-30',
     views: 13670,
-    imageUrl: '/images/banner3.jpg'
+    imageUrl: '/images/Jackpot2.jpg'
   },
   { 
     id: 10, 
@@ -89,7 +89,7 @@ export const newsData = [
     content: 'Kỳ quay mới nhất chưa có người trúng, giải thưởng tiếp tục tăng cao.', 
     date: '2025-10-15',
     views: 20500,
-    imageUrl: '/images/banner3.jpg'
+    imageUrl: '/images/TangManh.jpg'
   },
   { 
     id: 11, 
@@ -98,7 +98,7 @@ export const newsData = [
     content: 'Chia sẻ từ người chơi lâu năm: Kết hợp thống kê và may mắn.', 
     date: '2025-10-14',
     views: 17890,
-    imageUrl: '/images/banner3.jpg'
+    imageUrl: '/images/Meo.jpg'
   },
   { 
     id: 12, 
@@ -107,7 +107,7 @@ export const newsData = [
     content: 'Vietlott tổ chức hội thảo chia sẻ kinh nghiệm trúng thưởng.', 
     date: '2025-10-13',
     views: 11230,
-    imageUrl: '/images/banner3.jpg'
+    imageUrl: '/images/GapGo.jpg'
   }
 ];
 
@@ -235,7 +235,7 @@ export const newsDetailData = {
     category: 'Giải thưởng',
     views: 15420,
     tags: ['Jackpot', 'Vietlott', 'Nhận thưởng', 'Hà Nội', '92 tỷ', 'Từ thiện'],
-    imageUrl: '/images/banner3.jpg'
+    imageUrl: '/images/92Ty.jpg'
   },
 
   // ======================================================================
@@ -386,7 +386,7 @@ export const newsDetailData = {
     category: 'Thống kê',
     views: 12350,
     tags: ['Thống kê', 'Con số hot', 'Xổ số', 'Tháng 9', 'Phân tích', 'Miền Bắc', 'Miền Nam'],
-    imageUrl: '/images/banner3.jpg'
+    imageUrl: '/images/SoMayMan.jpg'
   },
 
   // ======================================================================
@@ -446,7 +446,7 @@ export const newsDetailData = {
     category: 'Sự kiện',
     views: 8520,
     tags: ['Đại lý', 'Miền Nam', 'Khai trương', 'TP.HCM', 'Đồng Nai', 'Mở rộng'],
-    imageUrl: '/images/banner3.jpg'
+    imageUrl: '/images/DaiLy.jpg'
   },
 
   // ======================================================================
@@ -490,7 +490,7 @@ export const newsDetailData = {
     category: 'Giải thưởng',
     views: 18750,
     tags: ['Vé cào', 'Từ thiện', 'Đồng Nai', '45 tỷ', 'Cặp vợ chồng', 'May mắn'],
-    imageUrl: '/images/banner3.jpg'
+    imageUrl: '/images/VeSoCao.jpg'
   },
 
   // ======================================================================
@@ -559,7 +559,7 @@ export const newsDetailData = {
     category: 'Công nghệ',
     views: 9840,
     tags: ['App mobile', 'Mua vé online', 'Vietlott Mobile', 'Số hóa', 'Thanh toán'],
-    imageUrl: '/images/banner3.jpg'
+    imageUrl: '/images/MuaSo.jpg'
   },
 
   // ======================================================================
@@ -604,7 +604,7 @@ export const newsDetailData = {
     category: 'Khuyến mãi',
     views: 11200,
     tags: ['Khuyến mãi', 'Mua 5 tặng 1', 'Quà tặng', 'Tháng 10'],
-    imageUrl: '/images/banner3.jpg'
+    imageUrl: '/images/KhuyenMai.jpg'
   },
 
   // ======================================================================
@@ -695,7 +695,7 @@ export const newsDetailData = {
     category: 'Hướng dẫn',
     views: 14580,
     tags: ['Phong thủy', 'Chọn số', 'Ngũ hành', 'Ngày sinh', 'Bí quyết', 'May mắn'],
-    imageUrl: '/images/banner3.jpg'
+    imageUrl: '/images/PhongThuy.jpg'
   },
 
   // ======================================================================
@@ -823,7 +823,7 @@ export const newsDetailData = {
     category: 'Thống kê',
     views: 16420,
     tags: ['Top 10', 'Con số', 'Phong thủy', 'Tuần qua', 'Thống kê'],
-    imageUrl: '/images/banner3.jpg'
+    imageUrl: '/images/SoNhieu.jpg'
   },
 
   // ======================================================================
@@ -861,7 +861,7 @@ export const newsDetailData = {
     category: 'Cập nhật',
     views: 13670,
     tags: ['Jackpot 2', 'Miền Bắc', 'Giải thưởng', 'Mới'],
-    imageUrl: '/images/banner3.jpg'
+    imageUrl: '/images/Jackpot2.jpg'
   },
 
   // ======================================================================
@@ -894,7 +894,7 @@ export const newsDetailData = {
     category: 'Kết quả',
     views: 20500,
     tags: ['Kết quả', 'Jackpot', 'Tích lũy', '120 tỷ'],
-    imageUrl: '/images/banner3.jpg'
+    imageUrl: '/images/TangManh.jpg'
   },
 
   // ======================================================================
@@ -1023,7 +1023,7 @@ export const newsDetailData = {
   category: 'Mẹo chơi',
   views: 17890,
   tags: ['Mẹo chơi', 'Chiến lược', 'Thống kê', 'Phong thủy', 'Hùn vốn', 'Khuyến mãi', 'An toàn'],
-  imageUrl: '/images/banner3.jpg'
+  imageUrl: '/images/Meo.jpg'
 },
 // ======================================================================
   // ID 12 – Sự kiện offline Hà Nội
@@ -1090,6 +1090,6 @@ export const newsDetailData = {
     category: 'Sự kiện',
     views: 11230,
     tags: ['Offline', 'Hà Nội', 'Gặp gỡ', 'Hội thảo', 'Trúng thưởng'],
-    imageUrl: '/images/banner3.jpg'
+    imageUrl: '/images/GapGo.jpg'
   }
 };
