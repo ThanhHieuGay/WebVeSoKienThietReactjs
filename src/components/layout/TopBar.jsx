@@ -34,7 +34,7 @@ export const TopBar = () => {
           </div>
 
           <div className="hidden md:block">
-            <span className="text-sm">Gọi chúng tôi: (+84) 1234 567890</span>
+            <span className="text-sm">Gọi chúng tôi: (+84) 344849577</span>
           </div>
 
           <div className="d-flex align-items-center gap-2">

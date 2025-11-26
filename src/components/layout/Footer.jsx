@@ -7,15 +7,15 @@ export const Footer = () => {
         <Row className="mb-4">
           <Col md={4}>
             <h5 className="fw-bold mb-3">Địa chỉ</h5>
-            <p>123 Đường ABC, TP. Hồ Chí Minh, Việt Nam</p>
+            <p>Lê Hồng Phong, TP. Hồ Chí Minh, Việt Nam</p>
           </Col>
           <Col md={4}>
             <h5 className="fw-bold mb-3">Email</h5>
-            <p>info@xosokienthiet.vn</p>
+            <p>xosokienthietphattai@gmail.vn</p>
           </Col>
           <Col md={4}>
             <h5 className="fw-bold mb-3">Điện thoại</h5>
-            <p>(+84) 1234 567890</p>
+            <p>(+84) 344849577</p>
           </Col>
         </Row>
         <hr className="border-white opacity-50" />

@@ -26,30 +26,46 @@ const Login = () => {
   };
 
   const handleEmailLogin = async (e) => {
-    e.preventDefault();
-    setLoading(true);
+  e.preventDefault();
+  setLoading(true);
 
-    try {
-      await loginWithEmail(formData.email, formData.password);
-      navigate('/');
-    } catch (error) {
-      console.error('Login failed:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  try {
+    await loginWithEmail(formData.email, formData.password);
 
-  const handleGoogleLogin = async () => {
-    setLoading(true);
-    try {
-      await loginWithGoogle();
-      navigate('/');
-    } catch (error) {
-      console.error('Google login failed:', error);
-    } finally {
-      setLoading(false);
+    // THAY ĐỔI TẠI ĐÂY
+    const pendingCheckout = localStorage.getItem('pendingCheckout');
+    if (pendingCheckout === 'true') {
+      localStorage.removeItem('pendingCheckout');
+      navigate('/buy', { state: { openCart: true } }); // Quay lại /buy + mở giỏ
+    } else {
+      navigate('/'); // Bình thường thì về trang chủ
     }
-  };
+  } catch (error) {
+    console.error('Login failed:', error);
+  } finally {
+    setLoading(false);
+  }
+};
+
+const handleGoogleLogin = async () => {
+  setLoading(true);
+  try {
+    await loginWithGoogle();
+
+    // THAY ĐỔI TẠI ĐÂY
+    const pendingCheckout = localStorage.getItem('pendingCheckout');
+    if (pendingCheckout === 'true') {
+      localStorage.removeItem('pendingCheckout');
+      navigate('/buy', { state: { openCart: true } });
+    } else {
+      navigate('/');
+    }
+  } catch (error) {
+    console.error('Google login failed:', error);
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <>
@@ -159,7 +175,7 @@ const Login = () => {
                 </div>
               </div>
 
-              {/* Google Login Button - Đặt xuống dưới */}
+              {/* Google Login Button */}
               <button
                 type="button"
                 onClick={handleGoogleLogin}

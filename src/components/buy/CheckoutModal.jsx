@@ -1,25 +1,22 @@
-// src/components/buy/CheckoutModal.jsx
+// src/components/buy/CheckoutModal.jsx - ĐÃ SỬA ENCODING
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, CreditCard, Smartphone, Building2, Wallet, ChevronRight, CheckCircle, AlertCircle } from 'lucide-react';
 import { formatDate } from './utils';
 
 /**
  * Component modal thanh toán với bill chi tiết
- * - Hiển thị thông tin đơn hàng
- * - Chọn phương thức thanh toán
- * - Form nhập thông tin khách hàng
- * - Xác nhận thanh toán
- * 
- * FIXED: Không bị che nút thanh toán khi có nội dung dài
+ * ✅ TỰ ĐỘNG ĐIỀN THÔNG TIN TỪ TÀI KHOẢN ĐÃ ĐĂNG NHẬP
+ * ✅ FIX: z-index = 9999 để không bị header che
  */
 export const CheckoutModal = ({ 
   isOpen, 
   cart, 
   onClose, 
-  onConfirmPayment 
+  onConfirmPayment,
+  currentUser
 }) => {
-  const [step, setStep] = useState(1); // 1: Thông tin, 2: Thanh toán, 3: Hoàn thành
+  const [step, setStep] = useState(1);
   const [paymentMethod, setPaymentMethod] = useState('');
   const [customerInfo, setCustomerInfo] = useState({
     fullName: '',
@@ -28,11 +25,23 @@ export const CheckoutModal = ({
     address: ''
   });
 
+  // ✅ TỰ ĐỘNG ĐIỀN THÔNG TIN KHI MỞ MODAL
+  useEffect(() => {
+    if (isOpen && currentUser) {
+      setCustomerInfo({
+        fullName: currentUser.displayName || '',
+        phone: customerInfo.phone || '',
+        email: currentUser.email || '',
+        address: customerInfo.address || ''
+      });
+    }
+  }, [isOpen, currentUser]);
+
   if (!isOpen) return null;
 
   // Tính toán
   const subtotal = cart.reduce((sum, item) => sum + (item.gia * item.quantity), 0);
-  const discount = 0; // Có thể thêm logic giảm giá
+  const discount = 0;
   const total = subtotal - discount;
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
@@ -97,14 +106,13 @@ export const CheckoutModal = ({
   const handleNewOrder = () => {
     setStep(1);
     setPaymentMethod('');
-    setCustomerInfo({ fullName: '', phone: '', email: '', address: '' });
     onClose();
   };
 
   return (
     <div 
-      className="fixed inset-0 flex items-center justify-center z-50 p-4"
-      style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
+      className="fixed inset-0 flex items-center justify-center p-4"
+      style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)', zIndex: 9999 }}
     >
       <div className="bg-white rounded-3xl max-w-5xl w-full max-h-[90vh] overflow-hidden shadow-2xl flex flex-col">
         
@@ -129,7 +137,7 @@ export const CheckoutModal = ({
           </button>
         </div>
 
-        {/* Content - FIXED: Thêm flex-1 và overflow riêng */}
+        {/* Content */}
         <div className="flex-1 overflow-y-auto p-6">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             
@@ -268,8 +276,8 @@ export const CheckoutModal = ({
                     Đặt Hàng Thành Công! 🎉
                   </h3>
                   <p className="text-lg text-gray-600 mb-6">
-                    Cảm ơn bạn đã mua vé số tại hệ thống của chúng tôi.<br />
-                    Thông tin đơn hàng đã được gửi về email của bạn.
+                    Cảm ơn <strong>{customerInfo.fullName}</strong> đã mua vé số tại hệ thống của chúng tôi.<br />
+                    Thông tin đơn hàng đã được gửi về email <strong>{customerInfo.email}</strong>
                   </p>
                   <div className="bg-yellow-50 border-2 border-yellow-200 rounded-2xl p-5 mb-6 inline-block">
                     <p className="text-gray-700 mb-2">
@@ -353,7 +361,7 @@ export const CheckoutModal = ({
           </div>
         </div>
 
-        {/* Footer - Action buttons - FIXED: flex-shrink-0 để không bị ẩn */}
+        {/* Footer - Action buttons */}
         {step !== 3 && (
           <div className="border-t-2 border-gray-200 p-6 bg-gray-50 flex justify-between items-center flex-shrink-0">
             <div>

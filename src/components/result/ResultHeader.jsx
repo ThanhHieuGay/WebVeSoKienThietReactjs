@@ -1,10 +1,5 @@
 // components/result/ResultHeader.jsx
 export const ResultHeader = ({ data }) => {
-  const formatDate = (d) => {
-    const [y, m, day] = d.split('-');
-    return `${day}/${m}/${y}`;
-  };
-
   return (
     <div className="bg-gradient-to-br from-red-600 via-red-700 to-red-800 text-white rounded-2xl shadow-2xl p-6 md:p-8 mb-8 border-4 border-yellow-400">
       <div className="text-center">
@@ -17,7 +12,7 @@ export const ResultHeader = ({ data }) => {
 
         <div className="flex flex-wrap justify-center gap-3 md:gap-5 text-sm md:text-lg">
           <span className="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full border border-yellow-300">
-            {formatDate(data.date)}
+            {data.date}
           </span>
           <span className="bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full border border-yellow-300">
             {data.drawTime}

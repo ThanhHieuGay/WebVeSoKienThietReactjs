@@ -15,6 +15,7 @@ import NewsDetail from './pages/NewsDetail';
 import About from './pages/About';
 import Guide from './pages/Guide';
 import Contact from './pages/Contact';
+import Support from './pages/Support';
 import Login from './pages/Login';
 import Register from './pages/Register';
 
@@ -43,15 +44,15 @@ function App() {
         <Toaster 
           position="top-right" 
           toastOptions={{
-            duration: 3000,
+            duration: 4000,
             style: {
-              background: '#363636',
-              color: '#fff',
+              background: '#fff',
+              color: '#000',
             },
             success: {
-              duration: 3000,
+              duration: 4000,
               iconTheme: {
-                primary: '#10B981',
+                primary: '#22C55E',
                 secondary: '#fff',
               },
             },
@@ -79,6 +80,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/guide" element={<Guide />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/support" element={<Support />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 

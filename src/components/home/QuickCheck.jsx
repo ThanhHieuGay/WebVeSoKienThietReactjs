@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { checkTicketWinner } from "../../lib/supabaseClient";
 
 const provincesData = {
   nam: [
@@ -103,22 +104,66 @@ export const QuickCheck = () => {
       return;
     }
 
+    if (formData.number.length !== 6) {
+      alert('Số vé phải có đúng 6 chữ số!');
+      return;
+    }
+
     setIsLoading(true);
-    await new Promise(resolve => setTimeout(resolve, 1500));
 
-    const provinceName = allProvinces.find(p => p.value === formData.province)?.label || formData.province;
-    const regionName = formData.region === 'nam' ? 'Miền Nam' : formData.region === 'trung' ? 'Miền Trung' : 'Miền Bắc';
-    const isWin = formData.number === '123456';
+    try {
+      const provinceName = allProvinces.find(p => p.value === formData.province)?.label || formData.province;
+      const regionName = formData.region === 'nam' ? 'Miền Nam' : formData.region === 'trung' ? 'Miền Trung' : 'Miền Bắc';
 
-    setCheckResult({
-      isWin,
-      number: formData.number,
-      province: provinceName,
-      region: regionName,
-      date: new Date(formData.date).toLocaleDateString('vi-VN'),
-    });
+      // Gọi API kiểm tra vé từ Supabase
+      const result = await checkTicketWinner(formData.number, formData.province, formData.date);
 
-    setIsLoading(false);
+      if (result.error) {
+        setCheckResult({
+          isWin: false,
+          number: formData.number,
+          province: provinceName,
+          region: regionName,
+          date: new Date(formData.date).toLocaleDateString('vi-VN'),
+          message: result.error
+        });
+      } else if (!result.result) {
+        setCheckResult({
+          isWin: false,
+          number: formData.number,
+          province: provinceName,
+          region: regionName,
+          date: new Date(formData.date).toLocaleDateString('vi-VN'),
+          message: 'Chưa có kết quả xổ số cho ngày này'
+        });
+      } else if (result.isWinner) {
+        // ✅ Sử dụng kết quả trực tiếp từ API đã được fix
+        setCheckResult({
+          isWin: true,
+          number: formData.number,
+          province: provinceName,
+          region: regionName,
+          date: new Date(formData.date).toLocaleDateString('vi-VN'),
+          prizeName: result.prizeName,
+          prizeAmount: result.prizeAmount,
+          matchInfo: result.matchInfo
+        });
+      } else {
+        setCheckResult({
+          isWin: false,
+          number: formData.number,
+          province: provinceName,
+          region: regionName,
+          date: new Date(formData.date).toLocaleDateString('vi-VN'),
+          message: result.message || 'Vé không trúng thưởng'
+        });
+      }
+    } catch (error) {
+      console.error('Lỗi khi kiểm tra vé:', error);
+      alert('Có lỗi xảy ra khi kiểm tra vé. Vui lòng thử lại!');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleNumberChange = (e) => {
@@ -255,6 +300,11 @@ export const QuickCheck = () => {
                     : 'RẤT TIẾC, VÉ KHÔNG TRÚNG'
                   }
                 </h3>
+                {checkResult.isWin && checkResult.prizeName && (
+                  <p className="text-3xl font-bold text-green-600 mt-2">
+                    🏆 {checkResult.prizeName}
+                  </p>
+                )}
               </div>
 
               <div className="space-y-2 text-2xl md:text-3xl mb-4">
@@ -278,6 +328,22 @@ export const QuickCheck = () => {
                   <span className="font-bold text-gray-800">Ngày quay:</span>
                   <span className="font-semibold">{checkResult.date}</span>
                 </div>
+                {checkResult.isWin && checkResult.matchInfo && (
+                  <div className="flex justify-between p-3 bg-yellow-100 rounded-xl border-2 border-yellow-400">
+                    <span className="font-bold text-gray-800">Số trúng:</span>
+                    <span className="font-bold text-orange-700">
+                      {checkResult.matchInfo}
+                    </span>
+                  </div>
+                )}
+                {checkResult.isWin && checkResult.prizeAmount && (
+                  <div className="flex justify-between p-3 bg-white/70 rounded-xl">
+                    <span className="font-bold text-gray-800">Giá trị giải:</span>
+                    <span className="font-black text-green-600 text-3xl">
+                      {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(checkResult.prizeAmount)}
+                    </span>
+                  </div>
+                )}
               </div>
 
               <div className={`p-4 rounded-2xl text-center font-bold text-2xl ${
@@ -286,8 +352,8 @@ export const QuickCheck = () => {
                   : 'bg-red-200 text-red-900 border-2 border-red-400'
               }`}>
                 {checkResult.isWin 
-                  ? '🏆 Bạn đã trúng giải đặc biệt! Vui lòng liên hệ đại lý để nhận thưởng.' 
-                  : '💡 Chúc bạn may mắn lần sau! Hãy thử lại với vé mới.'
+                  ? '🏆 Bạn đã trúng giải! Vui lòng liên hệ đại lý để nhận thưởng.' 
+                  : checkResult.message || '💡 Chúc bạn may mắn lần sau! Hãy thử lại với vé mới.'
                 }
               </div>
             </div>
